@@ -27,7 +27,7 @@ class KhodaBot:
         # msg = f"{Config.WELCOME_TEXT}\n\n🔧 **Loaded Services:**\n{services_text}"
         msg = Config.WELCOME_TEXT
         msg = TelegramFormatter.escape_special_for_telegram(msg)
-        await update.message.reply_text(msg, parse_mode="Markdown")
+        await update.message.reply_text(msg, parse_mode="HTML")
 
     def run(self):
         logger.info("Initializing and starting bot...")

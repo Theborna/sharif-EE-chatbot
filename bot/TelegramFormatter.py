@@ -169,6 +169,33 @@ def clean_llm_output(text: str) -> str:
         
         # Parse and clean HTML - use 'html.parser' to avoid warnings
         soup = BeautifulSoup(text, "html.parser")
+        
+        # Telegram-supported tags (case-insensitive)
+        allowed_tags = {'a', 'b', 'i', 'u', 's', 'code', 'pre', 'em', 'strong'}
+        
+        # Remove unsupported tags but keep their content
+        for tag in soup.find_all():
+            if tag.name.lower() not in allowed_tags:
+                tag.unwrap()  # Remove tag but keep content
+        
+        # Convert common HTML tags to Telegram equivalents
+        for strong_tag in soup.find_all('strong'):
+            strong_tag.name = 'b'
+        for em_tag in soup.find_all('em'):
+            em_tag.name = 'i'
+            
+        # Remove unsupported attributes from allowed tags
+        for tag in soup.find_all():
+            if tag.name == 'a':
+                # Keep only href attribute for links
+                href = tag.get('href')
+                tag.attrs.clear()
+                if href:
+                    tag.attrs['href'] = href
+            else:
+                # Remove all attributes from other tags
+                tag.attrs.clear()
+        
         cleaned = str(soup)
         
         cleaned = cleaned.strip()

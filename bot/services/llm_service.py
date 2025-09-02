@@ -341,7 +341,7 @@ class LLMService(BaseService):
                     if isinstance(answer, dict):
                         answer = str(answer)
                     answer = clean_llm_output(answer)
-            
+
                     await update.message.reply_text(answer, parse_mode="HTML")
                 else:
                     await update.message.reply_text(
