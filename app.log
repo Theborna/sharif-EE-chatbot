@@ -1,17 +1,20 @@
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: LLM Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: LLM Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: LLM Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: LLM Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: LLM Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: LLM Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: Ping Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: Report Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: Inline Query Service
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Added handler for service: Inline Query Service
-2025-09-03 02:17:51,025 - __main__ - INFO - Starting bot...
-2025-09-03 02:17:51,025 - bot.khoda_bot - INFO - Initializing and starting bot...
-2025-09-03 02:17:51,658 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/getMe "HTTP/1.1 200 OK"
-2025-09-03 02:17:51,791 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/deleteWebhook "HTTP/1.1 200 OK"
-2025-09-03 02:17:51,793 - telegram.ext.Application - INFO - Application started
-2025-09-03 02:17:52,730 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/getUpdates "HTTP/1.1 200 OK"
-2025-09-03 02:17:52,905 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/sendMessage "HTTP/1.1 200 OK"
+2025-09-05 15:56:52,844 - bot.khoda_bot - INFO - Added handler for service: LLM Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: LLM Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: LLM Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: LLM Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: LLM Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: LLM Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: Ping Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: Report Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: Inline Query Service
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Added handler for service: Inline Query Service
+2025-09-05 15:56:52,859 - __main__ - INFO - Starting bot...
+2025-09-05 15:56:52,859 - bot.khoda_bot - INFO - Initializing and starting bot...
+2025-09-05 15:56:53,212 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/getMe "HTTP/1.1 200 OK"
+2025-09-05 15:56:53,369 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/deleteWebhook "HTTP/1.1 200 OK"
+2025-09-05 15:56:53,369 - telegram.ext.Application - INFO - Application started
+2025-09-05 15:56:53,696 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/getUpdates "HTTP/1.1 200 OK"
+2025-09-05 15:56:53,906 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/sendChatAction "HTTP/1.1 200 OK"
+2025-09-05 15:56:53,966 - bot.api_client - INFO - Session created: a087080b-3bd8-4fac-bacb-7de30d822016
+2025-09-05 15:56:53,966 - bot.services.llm_service - INFO - Created new session a087080b-3bd8-4fac-bacb-7de30d822016 for chat 107830909
+2025-09-05 15:56:54,057 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8192444599:AAEUDe-3BT73dPVNS_LRw-oceXbFCYQZ8-I/sendChatAction "HTTP/1.1 200 OK"
