@@ -1,6 +1,5 @@
 import logging
 import asyncio
-import time
 from typing import List, Dict, Optional
 from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler, MessageHandler, filters
@@ -27,6 +26,7 @@ class RateLimiter:
         self.tokens = max_tokens
         self.last_refill = time.time()
         self.lock = asyncio.Lock()
+        
     
     async def try_consume(self, tokens: int = 1) -> bool:
         """Try to consume tokens. Returns True if successful, False if rate limited."""
@@ -62,21 +62,6 @@ class LLMService(BaseService):
         self._session_locks: Dict[int, asyncio.Lock] = {}
         self._global_lock = asyncio.Lock()
 
-        # Rate limiting - per chat/user
-        self._rate_limiters: Dict[int, RateLimiter] = {}
-        self._rate_limit_config = {
-            'max_tokens': 10,        # 10 requests per user
-            'refill_rate': 5,        # 5 tokens per minute
-            'refill_period': 60.0    # 1 minute
-        }
-        
-        # Global rate limiting (optional)
-        self._global_rate_limiter = RateLimiter(
-            max_tokens=120,      # 50 concurrent requests globally
-            refill_rate=120,     # 30 tokens per minute globally  
-            refill_period=60.0
-        )
-
         # Memory control
         self.disable_memory: Dict[int, bool] = {}
         self.enable_memory: Dict[int, bool] = {} 
@@ -110,49 +95,12 @@ class LLMService(BaseService):
                 self._session_locks[chat_id] = asyncio.Lock()
             return self._session_locks[chat_id]
 
-    async def _get_rate_limiter(self, user_id: int) -> RateLimiter:
-        """Get or create a rate limiter for a specific user"""
-        async with self._global_lock:
-            if user_id not in self._rate_limiters:
-                self._rate_limiters[user_id] = RateLimiter(**self._rate_limit_config)
-            return self._rate_limiters[user_id]
-
-    async def _check_rate_limit(self, update: Update) -> bool:
-        """Check if request should be rate limited. Returns True if allowed."""
-        user_id = update.effective_user.id if update.effective_user else 0
-        
-        # Check global rate limit first
-        if not await self._global_rate_limiter.try_consume():
-            retry_after = await self._global_rate_limiter.get_retry_after()
-            await update.message.reply_text(
-                f"🚫 System is busy. Please try again in {retry_after:.0f} seconds."
-            )
-            logger.warning(f"Global rate limit exceeded for user {user_id}")
-            return False
-        
-        # Check per-user rate limit
-        user_limiter = await self._get_rate_limiter(user_id)
-        if not await user_limiter.try_consume():
-            retry_after = await user_limiter.get_retry_after()
-            await update.message.reply_text(
-                f"⏰ You're sending requests too quickly. Please wait {retry_after:.0f} seconds before trying again.\n"
-                f"Rate limit: {self._rate_limit_config['refill_rate']} requests per minute."
-            )
-            logger.info(f"User {user_id} rate limited")
-            return False
-        
-        return True
-
     # ---------------------------
     # Commands
     # ---------------------------
 
     async def new_chat_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle /new_chat command to start a fresh conversation"""
-        # Rate limit check
-        if not await self._check_rate_limit(update):
-            return
-            
         chat_id = update.effective_chat.id
         is_private = self._is_private_chat(update)
 
@@ -195,10 +143,6 @@ class LLMService(BaseService):
 
     async def end_chat_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle /end_chat command to end the current conversation"""
-        # Rate limit check (lighter limit for admin commands)
-        if not await self._check_rate_limit(update):
-            return
-            
         chat_id = update.effective_chat.id
 
         # Use chat-specific lock for session operations
@@ -263,10 +207,6 @@ class LLMService(BaseService):
 
     async def ask_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle /ask command"""
-        # Rate limit check
-        if not await self._check_rate_limit(update):
-            return
-            
         if not context.args:
             await update.message.reply_text(
                 "Please provide a question after the /ask command.\nExample: /ask What is the capital of France?"
@@ -290,10 +230,6 @@ class LLMService(BaseService):
 
     async def handle_message(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle regular text messages"""
-        # Rate limit check
-        if not await self._check_rate_limit(update):
-            return
-            
         question = update.message.text
 
         # Ignore free-form messages in groups (avoid spam); commands still work in groups.
@@ -448,7 +384,7 @@ class LLMService(BaseService):
                     if isinstance(answer, dict):
                         answer = str(answer)
                     answer = clean_llm_output(answer)
-            
+
                     await update.message.reply_text(answer, parse_mode="HTML")
                 else:
                     await update.message.reply_text(
