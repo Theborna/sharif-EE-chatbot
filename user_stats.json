@@ -1,0 +1,15 @@
+{
+  "107830909": {
+    "first_seen": "2025-09-29T20:15:07.015860",
+    "last_seen": "2025-09-29T20:15:37.124801",
+    "username": "BornaKhodabandeh",
+    "first_name": "Borna🎓خدا",
+    "total_messages": 12,
+    "services_used": {
+      "<bound method PingService.ping_command of <bot.services.ping_service.PingService object at 0x000002399DF0D3F0>>": 3,
+      "<bound method LLMService.enable_memory_command of <bot.services.llm_service.LLMService object at 0x000002399DF0D4E0>>": 1,
+      "<bound method LLMService.disable_memory_command of <bot.services.llm_service.LLMService object at 0x000002399DF0D4E0>>": 1,
+      "<bound method LLMService.handle_message of <bot.services.llm_service.LLMService object at 0x000002399DF0D4E0>>": 1
+    }
+  }
+}
